@@ -27,7 +27,7 @@ export class PostsComponent extends Component {
     console.log('post onShow, fbData', fbData);
     console.log('posts', posts);
 
-    const html = posts.map(post => renderPost(post, {withButton:true}))
+    const html = posts.map(post => renderPost(post, { withButton: true }))
     // console.log(html);
     this.$el.insertAdjacentHTML('afterbegin', html.join(' '))
     this.loader.hide()
@@ -47,16 +47,23 @@ function buttonHandler(event) {
   const $el = event.target
   const id = $el.dataset.id
   const title = $el.dataset.title
+  const date = $el.dataset.date
 
   // console.log('buttonHandler', event);
 
   if (id) {
     // console.log('id = ', id);
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    const candidate = favorites.find(p => p.id === id)
+
+
     console.log(favorites);
-    if (favorites.includes(id)) {
+    // if (favorites.includes(id)) {
+    if (candidate) {
       //удалить вхождение
-      favorites = favorites.filter(fId => fId !== id)
+      // favorites = favorites.filter(fId => fId !== id)
+      favorites = favorites.filter(p => p.id !== id)
+
       $el.textContent = 'Сохранить'
       $el.classList.add('button-primary')
       $el.classList.remove('button-danger')
@@ -64,7 +71,7 @@ function buttonHandler(event) {
       // добавить вхождение
 
       // favorites.push(id, title)
-      favorites.push(id)
+      favorites.push({ id, title, date })
 
       $el.textContent = 'Удалить'
       $el.classList.remove('button-primary')

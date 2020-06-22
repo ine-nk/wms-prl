@@ -33,8 +33,8 @@ function renderList(list = []) {
     return `<p class="center" >Вы пока ничего не добавили</p>`
   } else {
     return `
-  <ul>
-    ${list.map(i => `<li><a href="#" class="js-link">${i}</a></li>`).join(' ')}
+  <ul >
+    ${list.map(i => `<li><a href="#" class="js-link" data-id=${i.id}>${i.date}  &nbsp;&nbsp;&nbsp; ${i.title} </a></li>`).join(' ')}
   </ul>
   `
   }
@@ -44,7 +44,9 @@ async function linkClickHandler(event) {
   event.preventDefault()
 
   if (event.target.classList.contains('js-link')) {
-    const postId = event.target.textContent;
+    // const postId = event.target.textContent;   // было
+    const postId = event.target.dataset.id;
+
     this.$el.innerHTML = '' // очищаем страницу перед загрузкой постов
     console.log('event.target.textContent postID = ', postId);
 
